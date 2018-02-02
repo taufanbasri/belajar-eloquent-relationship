@@ -17,6 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/**
+ * One to One Route
+ */
 Route::get('/create-user', function()
 {
     $user = User::create([
@@ -120,6 +123,72 @@ Route::get('/delete-user', function()
     $user->delete();
 
     return $user;
+});
 
-    // akan menghapus profile yang berelasi karena dibuat onDelete('cascade')
+/**
+ * One to Many Route
+ */
+Route::get('/create-post', function()
+{
+    // $user = User::create([
+    //     'name' => 'Taufan',
+    //     'email' => 'taufan@mail.com',
+    //     'password' => bcrypt('123456')
+    // ]);
+
+    $user = User::findOrFail(1);
+
+    $user->posts()->create([
+        'title' => 'Judul Post ke-2',
+        'body' => 'Isi dari post ke-2'
+    ]);
+
+    return $user;
+});
+
+Route::get('/read-post', function()
+{
+    $user = User::findOrFail(1);
+
+    $posts = $user->posts;
+
+    foreach ($posts as $post) {
+        $data[] = [
+            'nama' => $post->user->name,
+            'title' => $post->title,
+            'body' => $post->body
+        ];
+    }
+
+    return $data;
+});
+
+Route::get('/update-post', function()
+{
+    $user = User::findOrFail(1);
+
+    // $user->posts()->whereId(1)->update([
+    //     'title' => 'Ini title setelah di update',
+    //     'body' => 'Ini isi dari post setelah di update'
+    // ]);
+
+    // mengupdate seluruh nilai Post dengan nilai yang sama.
+    $user->posts()->update([
+        'title' => 'Ini title yang sama',
+        'body' => 'Ini isi dari post yang sama'
+    ]);
+
+    return $user->posts;
+});
+
+Route::get('/delete-post', function()
+{
+    $user = User::findOrFail(1);
+
+    $user->posts()->whereId(1)->delete();
+
+    // untuk menghapus semua posts yang berelasi dengan user tertentu
+    // $user->posts()->delete();
+
+    return $user->posts;
 });
