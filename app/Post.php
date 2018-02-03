@@ -10,8 +10,19 @@ class Post extends Model
         'user_id', 'title', 'body'
     ];
 
+    /**
+     * Method One to Many Post -> User
+     */
     public function user()
     {
       return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Method Many to Many Post -> Category
+     */
+    public function categories()
+    {
+      return $this->belongsToMany(Category::class);
     }
 }
