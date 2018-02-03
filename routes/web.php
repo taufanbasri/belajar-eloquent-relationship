@@ -1,6 +1,8 @@
 <?php
 use App\User;
+use App\Post;
 use App\Profile;
+use App\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -130,13 +132,13 @@ Route::get('/delete-user', function()
  */
 Route::get('/create-post', function()
 {
-    // $user = User::create([
-    //     'name' => 'Taufan',
-    //     'email' => 'taufan@mail.com',
-    //     'password' => bcrypt('123456')
-    // ]);
+    $user = User::create([
+        'name' => 'Taufan',
+        'email' => 'taufan@mail.com',
+        'password' => bcrypt('123456')
+    ]);
 
-    $user = User::findOrFail(1);
+    // $user = User::findOrFail(1);
 
     $user->posts()->create([
         'title' => 'Judul Post ke-2',
@@ -191,4 +193,72 @@ Route::get('/delete-post', function()
     // $user->posts()->delete();
 
     return $user->posts;
+});
+
+/**
+ * Many to Many Route
+ */
+ Route::get('/create-categories', function()
+ {
+    // $post = Post::findOrFail(1);
+
+    // $post->categories()->create([
+    //     'slug' => str_slug('Belajar PHP', '-'),
+    //     'name' => 'Belajar PHP'
+    // ]);
+
+    // return $post->categories;
+
+    $user = User::create([
+        'name' => 'Keti',
+        'email' => 'keti@mail.com',
+        'password' => bcrypt('123456')
+    ]);
+
+    $user->posts()->create([
+        'title' => 'New Title',
+        'body' => 'New body of this post'
+    ])->categories()->create([
+        'slug' => str_slug('Belajar Menjahit', '-'),
+        'name' => 'Belajar Menjahit'
+    ]);
+
+    return $user;
+ });
+
+Route::get('/read-categories', function()
+{
+    // $post = Post::findOrFail(1);
+    //
+    // return $post->categories;
+
+    $category = Category::findOrFail(1);
+
+    return $category->posts;
+});
+
+Route::get('/attach-categories', function()
+{
+    $post = Post::findOrFail(2);
+
+    $post->categories()->attach(1);
+
+    return $post->categories;
+});
+
+Route::get('/detach-categories', function()
+{
+    $post = Post::findOrFail(1);
+    $post->categories()->detach([2,3]);
+
+    return $post->categories;
+});
+
+Route::get('/sync-categories', function()
+{
+    $post = Post::findOrFail(1);
+    // sync harus menggunakan type data array, jika attach & detach masih diberi opsi 1 data saja.
+    $post->categories()->sync([2,3]);
+
+    return $post->categories;
 });
