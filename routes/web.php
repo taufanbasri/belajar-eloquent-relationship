@@ -1,6 +1,7 @@
 <?php
 use App\User;
 use App\Post;
+use App\Role;
 use App\Profile;
 use App\Category;
 
@@ -132,20 +133,20 @@ Route::get('/delete-user', function()
  */
 Route::get('/create-post', function()
 {
-    $user = User::create([
-        'name' => 'Taufan',
-        'email' => 'taufan@mail.com',
-        'password' => bcrypt('123456')
-    ]);
+    // $user = User::create([
+    //     'name' => 'Taufan',
+    //     'email' => 'taufan@mail.com',
+    //     'password' => bcrypt('123456')
+    // ]);
 
-    // $user = User::findOrFail(1);
+    $user = User::findOrFail(2);
 
     $user->posts()->create([
-        'title' => 'Judul Post ke-2',
-        'body' => 'Isi dari post ke-2'
+        'title' => 'Judul Post 2 user Member',
+        'body' => 'Isi dari post 2 user Member'
     ]);
 
-    return $user;
+    return $user->posts;
 });
 
 Route::get('/read-post', function()
@@ -261,4 +262,11 @@ Route::get('/sync-categories', function()
     $post->categories()->sync([2,3]);
 
     return $post->categories;
+});
+
+Route::get('/role/posts', function()
+{
+    $role = Role::findOrFail(1);
+
+    return $role->posts;
 });
