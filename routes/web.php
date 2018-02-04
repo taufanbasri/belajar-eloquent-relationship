@@ -4,6 +4,7 @@ use App\Post;
 use App\Role;
 use App\Profile;
 use App\Category;
+use App\Portfolio;
 
 /*
 |--------------------------------------------------------------------------
@@ -269,4 +270,69 @@ Route::get('/role/posts', function()
     $role = Role::findOrFail(1);
 
     return $role->posts;
+});
+
+/**
+ * Polymorphic relationships
+ */
+Route::get('/comments/create', function()
+{
+    // $post = Post::findOrFail(1);
+    // $post->comments()->create([
+    //     'user_id' => 2,
+    //     'content' => 'Balasan response dari user_id 1'
+    // ]);
+    //
+    // return $post->comments;
+
+    $portfolio = Portfolio::findOrFail(1);
+    $portfolio->comments()->create([
+        'user_id' => 2,
+        'content' => 'Balasan portfolio response dari user_id 1'
+    ]);
+
+    return $portfolio->comments;
+});
+
+Route::get('/comments/read', function()
+{
+    // $post = Post::findOrFail(1);
+    // $comments = $post->comments;
+    //
+    // return $comments;
+
+    // $portfolio = Portfolio::findOrFail(1);
+    // $comments = $portfolio->comments;
+    //
+    // // return $comments;
+    //
+    // foreach ($comments as $comment) {
+    //     echo $comment->user->name . ': ' . $comment->content . ' ('. $comment->commentable->title .')<br>';
+    // }
+
+    $user = User::findOrFail(2);
+    $comments = $user->comments;
+
+    return $comments;
+});
+
+Route::get('/comments/update', function()
+{
+    $post = Post::findOrFail(1);
+
+    $comment = $post->comments()->whereId(1)->first();
+    $comment->update([
+        'content' => 'Komentar telah di sunting/update'
+    ]);
+
+    return $comment;
+});
+
+Route::get('/comments/delete', function()
+{
+    $post = Post::findOrFail(1);
+
+    $post->comments()->whereId(1)->delete();
+
+    return $post->comments;
 });

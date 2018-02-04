@@ -25,4 +25,12 @@ class Post extends Model
     {
       return $this->belongsToMany(Category::class);
     }
+
+    /**
+     * Get all of the Comment's models.
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
