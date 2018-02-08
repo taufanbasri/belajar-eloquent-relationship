@@ -336,3 +336,48 @@ Route::get('/comments/delete', function()
 
     return $post->comments;
 });
+
+/**
+ * Many to Many Polimorphic Relationship
+ */
+Route::get('/tags/read', function()
+{
+    $post = Post::findOrFail(1);
+
+    // return $post->tags;
+    foreach ($post->tags as $tag) {
+        echo $tag->name.'<br>';
+    }
+});
+
+Route::get('/tags/attach', function()
+{
+    $post = Post::findOrFail(1);
+
+    $post->tags()->attach([5,6,7]);
+
+    return $post->tags;
+});
+
+Route::get('/tags/detach', function()
+{
+    $post = Post::findOrFail(1);
+
+    $post->tags()->detach([1,3]);
+
+    return $post->tags;
+});
+
+Route::get('/tags/sync', function()
+{
+    // $post = Post::findOrFail(1);
+    //
+    // $post->tags()->sync([1,3,4]);
+    //
+    // return $post->tags;
+    $portfolio = Portfolio::findOrFail(1);
+
+    $portfolio->tags()->sync([1,3,4]);
+
+    return $portfolio->tags;
+});
