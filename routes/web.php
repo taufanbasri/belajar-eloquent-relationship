@@ -381,3 +381,39 @@ Route::get('/tags/sync', function()
 
     return $portfolio->tags;
 });
+
+/**
+ * SoftDeletes process
+ */
+ Route::get('/posts/softdeletes', function()
+ {
+     $post = Post::findOrFail(1);
+     $post->delete();
+
+     return $post;
+ });
+
+ Route::get('/posts/trash', function()
+ {
+     // all posts and trashed too.
+     // $posts = Post::withTrashed()->get();
+
+     $posts = Post::onlyTrashed()->get();
+
+     return $posts;
+ });
+
+ Route::get('/posts/restore', function()
+ {
+     $post = Post::onlyTrashed(1)->restore();
+     // dd($post);
+
+     return $post;
+ });
+
+Route::get('/posts/forcedelete', function()
+{
+    $post = Post::onlyTrashed([1])->forceDelete();
+
+    return $post;
+});
