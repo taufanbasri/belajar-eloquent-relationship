@@ -12,4 +12,9 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+   .sass('resources/assets/sass/app.scss', 'public/css')
+   .styles([
+       'node_modules/datatables.net-dt/css/jquery.dataTables.css',
+       'node_modules/datatables.net-bs/css/dataTables.bootstrap.css'
+   ], 'public/css/datatables.css')
+   .copy('node_modules/datatables.net-dt/images/', 'public/images');

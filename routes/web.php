@@ -417,3 +417,9 @@ Route::get('/posts/forcedelete', function()
 
     return $post;
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/datatables', 'DatatablesController@index');
