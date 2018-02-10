@@ -19,6 +19,7 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "bootswatch": "^3.3.7",
         "datatables": "^1.10.13",
         "datatables.net-bs": "^1.10.16",
         "datatables.net-dt": "^1.10.16"
