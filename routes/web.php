@@ -423,3 +423,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/datatables', 'DatatablesController@index');
+
+Route::resource('books', 'BookController')->except(['create']);

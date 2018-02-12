@@ -9,11 +9,12 @@ window._ = require('lodash');
 
 try {
     window.$ = window.jQuery = require('jquery');
+    require('bootstrap-sass');
+    window.validator = require('bootstrap-validator');
     window.swal = require('sweetalert2');
     require( 'datatables.net' )( window, $ );
     require( 'datatables.net-bs' )( window, $ );
 
-    require('bootstrap-sass');
 } catch (e) {}
 
 /**
