@@ -12,7 +12,10 @@ class Document extends Model
         parent::boot();
 
         static::updating(function ($document){
-           $document->adjustments()->attach(auth()->user()->id);
+           $document->adjustments()->attach(auth()->user()->id, [
+               'before' => json_encode(array_intersect_key($document->fresh()->toArray(), $document->getDirty())),
+               'after' => json_encode($document->getDirty())
+           ]);
         });
     }
 
@@ -20,6 +23,7 @@ class Document extends Model
     {
         return $this->belongsToMany(User::class, 'adjustments')
                 ->withTimestamps()
+                ->withPivot(['before', 'after'])
                 ->latest('pivot_updated_at');
     }
 }
