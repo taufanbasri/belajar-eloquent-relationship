@@ -1,4 +1,6 @@
 <?php
+Auth::loginUsingId(1);
+
 use App\User;
 use App\Post;
 use App\Role;
@@ -425,3 +427,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/datatables', 'DatatablesController@index');
 
 Route::resource('books', 'BookController')->except(['create']);
+
+Route::get('documents/{document}', 'DocumentsController@show');
