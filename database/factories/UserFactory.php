@@ -29,3 +29,15 @@ $factory->define(App\Document::class, function (Faker $faker) {
         'body' => $faker->paragraph,
     ];
 });
+
+$factory->define(App\Lesson::class, function (Faker $faker) {
+    return [
+        'title' => $faker->sentence,
+        'body' => $faker->paragraph,
+        'views' => $faker->randomNumber(4),
+        'length' => $faker->randomNumber(3),
+        'difficulty' => array_rand([
+            'Beginner' => 'Beginner', 'Intermediate' => 'Intermediate', 'Advanced' => 'Advanced'
+        ], 1),
+    ];
+});
